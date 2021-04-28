@@ -1,42 +1,101 @@
-# Hadoop Smoke Tests
-
-This repository contains scripts or commands to run compact, __simple applications__ that will __test the basic functionality__ of the various components of a Hadoop cluster. 
-
-These basic code snippets should work on all known distributions : Hortonworks HDP & HDF , MapR, but where especially developed / crafted for __[Cloudera CDP (private cloud 7.1.3)](https://www.cloudera.com/products/cloudera-data-platform.html)__
-
-One might use these when setting up a new cluster or after a cluster upgrade to prove that the services work.
-
-## Guidelines
-- When possible, __Create, read, update, and delete (CRUD)__ functions are implemented.
-- Tests can be performed __from the Edge/Gateway__ node __or__ from __slaves / masters__ depending on the cases. For example, you can submit spark jobs in cluster or client mode.
-- __No additional software should be needed__ to run the test, but a minimal configuration for each component should be done before.
-- Unit testing is performed first. Then two components are tested to see if they are able to communicate, for instance spark operations on hdfs
-- Results are checked to determine if a specific test passed or failed.
-- Lanugages used: __shell__, __SQL__, __python__ and __scala__
+# Spark
 
 
-## Table of Contents
-01. [HDFS]()
-02. [Hive]()
-03. [Hbase]()
-04. [MapReduce]()
-05. [Spark 2 & 3 (with HDFS, Hive & Hbase)]()
-06. [Phoenix]()
-07. [Pig]()
-08. [SolR]()
-09. [Oozie]()
-10. [Sqoop]()
-11. [Flume]()
-12. [Kafka]()
-13. [Various scripts]()
+## Spark alone
+```bash
+su hdfs
+/usr/bin/spark3-shell
+```
+
+or
+```bash
+/opt/cloudera/parcels/SPARK3/bin/spark3-submit \
+               --class org.apache.spark.examples.SparkPi \
+               --master yarn \
+               --deploy-mode cluster \
+               --num-executors 1 \
+               --executor-memory 1g \
+               --driver-memory 1g \
+               --executor-cores 1 \
+               /opt/cloudera/parcels/SPARK3/lib/spark3/examples/jars/spark-examples*.jar 10
+```
+mode cluster or client
+same thing for v3
 
 
-Please see [CONTRIBUTING.md]() for information on how to contribute.
+## Spark with HDFS
+```bash
+hdfs dfs -put /tmp/smoke_tests.csv /tmp/smoke_tests.csv
 
-## License
-__Copyleft__, since this is an aggregation of ressources freely available on the internet / docs of each components.
+/opt/cloudera/parcels/CDH/bin/spark-submit
+    --master yarn
+    --deploy-mode client
+    --num-executors 1
+    --executor-memory 1g
+    --driver-memory 1g
+    --executor-cores 1
+    /tmp/smoke_tests_spark_hdfs.py
 
-## Other ressources & references
-- [teamclairvoyant - hadoop-smoke-tests](https://github.com/teamclairvoyant/hadoop-smoke-tests)
-- [godatadriven - hdp-smokey](https://github.com/godatadriven/hdp-smokey)
-- [zmousa - hadoop-smoke-test](https://github.com/zmousa/hadoop-smoke-test)
+hdfs dfs -ls /tmp/test_changed.csv | wc -l
+```
+details of the file
+
+```python
+# import all needed libs
+from pyspark.sql import SparkSession
+from pyspark.sql.functions import *
+ 
+
+# create a session
+sparkSession = SparkSession.builder.appName("pyspark_test").getOrCreate()
+
+
+# read a file from HDFS
+df = sparkSession.read.option("header",True).option("inferSchema", True).csv("hdfs:///tmp/smoke_tests.csv")
+df.show()
+
+
+# write a file to HDFS
+df2 = df.withColumn('NAME', upper(col('name'))) \
+    .withColumn('station_id', col("station_id") + 1000) \
+    .withColumn('Constant', lit(1000)) \
+    .withColumn("result", col("station_id") + col("dockcount") - 10000).drop(col("landmark"))
+
+df2.show()
+df2.coalesce(2).write.csv("hdfs:///tmp/test_changed.csv")
+```b
+
+## Spark with hive
+```bash
+/opt/cloudera/parcels/CDH/lib/spark/bin/spark-submit /home/app_admin/spark-hive.py
+```
+
+file :
+
+```python 
+from os.path import abspath
+from pyspark.sql import SparkSession
+from pyspark.sql import Row
+
+
+warehouse_location = abspath('spark-warehouse')
+
+spark = SparkSession \
+    .builder \
+    .appName("Python Spark SQL Hive Smoke Test") \
+    .config("spark.sql.warehouse.dir", warehouse_location) \
+    .enableHiveSupport() \
+    .getOrCreate()
+
+spark.sql("CREATE TABLE IF NOT EXISTS smoke_test_hive(name VARCHAR(64), age INT)")
+spark.sql("INSERT INTO smoke_test_hive VALUES ('Salem ',30),('Olivier',30)")
+
+# Simple query
+spark.sql("SELECT * FROM smoke_test_hive").show()
+
+# Aggregation query
+spark.sql("SELECT COUNT(*) FROM smoke_test_hive").show()
+
+# Drop Table query
+spark.sql("DROP TABLE IF EXISTS smoke_test_hive")
+```

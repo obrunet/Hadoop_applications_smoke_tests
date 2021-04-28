@@ -17,3 +17,8 @@ EOF
 
 cat /tmp/zk.$$ | zookeeper-client -server $ZOOKEEPER
 ```
+
+
+or an other way
+
+shell: "echo mntr | nc localhost 2181"
