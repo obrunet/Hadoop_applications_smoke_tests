@@ -7,12 +7,12 @@ These basic code snippets should work on all known distributions : Hortonworks H
 One might use these when setting up a new cluster or after a cluster upgrade to prove that the services work.
 
 ## Guidelines
-- When possible, __Create, read, update, and delete (CRUD)__ functions are implemented.
-- Tests can be performed __from the Edge/Gateway__ node __or__ from __slaves / masters__ depending on the cases. For example, you can submit spark jobs in cluster or client mode.
-- __No additional software should be needed__ to run the test, but a minimal configuration for each component should be done before.
-- Unit testing is performed first. Then two components are tested to see if they are able to communicate, for instance spark operations on hdfs
-- Results are checked to determine if a specific test passed or failed.
-- Lanugages used: __shell__, __SQL__, __python__ and __scala__
+* When possible, __Create, read, update, and delete (CRUD)__ functions are implemented.
+* Tests can be performed __from the Edge/Gateway__ node __or__ from __slaves / masters__ depending on the cases. For example, you can submit spark jobs in cluster or client mode.
+* __No additional software should be needed__ to run the test, but a minimal configuration for each component should be done before.
+* Unit testing is performed first. Then two components are tested to see if they are able to communicate, for instance spark operations on hdfs
+* Results are checked to determine if a specific test passed or failed.
+* Lanugages used: __shell__, __SQL__, __python__ and __scala__
 
 
 ## Table of Contents
