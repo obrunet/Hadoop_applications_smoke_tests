@@ -16,19 +16,19 @@ One might use these when setting up a new cluster or after a cluster upgrade to 
 
 
 ## Table of Contents
-01. [HDFS]()
-02. [Hive]()
-03. [Hbase]()
-04. [MapReduce]()
-05. [Spark 2 & 3 (with HDFS, Hive & Hbase)]()
-06. [Phoenix]()
-07. [Pig]()
-08. [SolR]()
-09. [Oozie]()
-10. [Sqoop]()
-11. [Flume]()
-12. [Kafka]()
-13. [Various scripts]()
+01. [HDFS](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/01.HDFS/HDFS.md)
+02. [Hive](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/02.Hive/Hive.md)
+03. [Hbase](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/03.Hbase/Hbase.md)
+04. [MapReduce](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/04.MapReduce/MapReduce.md)
+05. [Spark 2 & 3 (with HDFS, Hive & Hbase)](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/05.Spark/Spark.md)
+06. [Phoenix](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/06.Phoenix/Phoenix.md)
+07. [Pig](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/07.HDFS/HDFS.md)
+08. [SolR](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/08.Pig/Pig.md)
+09. [Oozie](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/09.Oozie/Oozie.md)
+10. [Sqoop](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/10.Sqoop/Sqoop.md)
+11. [Flume](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/11.Flume/Flume.md)
+12. [Kafka](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/12.Kafka/Kafka.md)
+13. [Various scripts](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/13.Misc/Misc.md)
 
 
 Please see [CONTRIBUTING.md]() for information on how to contribute.
