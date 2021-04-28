@@ -1,42 +1,54 @@
-# Hadoop Smoke Tests
-
-This repository contains scripts or commands to run compact, __simple applications__ that will __test the basic functionality__ of the various components of a Hadoop cluster. 
-
-These basic code snippets should work on all known distributions : Hortonworks HDP & HDF , MapR, but where especially developed / crafted for __[Cloudera CDP (private cloud 7.1.3)](https://www.cloudera.com/products/cloudera-data-platform.html)__
-
-One might use these when setting up a new cluster or after a cluster upgrade to prove that the services work.
-
-## Guidelines
-- When possible, __Create, read, update, and delete (CRUD)__ functions are implemented.
-- Tests can be performed __from the Edge/Gateway__ node __or__ from __slaves / masters__ depending on the cases. For example, you can submit spark jobs in cluster or client mode.
-- __No additional software should be needed__ to run the test, but a minimal configuration for each component should be done before.
-- Unit testing is performed first. Then two components are tested to see if they are able to communicate, for instance spark operations on hdfs
-- Results are checked to determine if a specific test passed or failed.
-- Lanugages used: __shell__, __SQL__, __python__ and __scala__
+# Hbase
 
 
-## Table of Contents
-01. [HDFS]()
-02. [Hive]()
-03. [Hbase]()
-04. [MapReduce]()
-05. [Spark 2 & 3 (with HDFS, Hive & Hbase)]()
-06. [Phoenix]()
-07. [Pig]()
-08. [SolR]()
-09. [Oozie]()
-10. [Sqoop]()
-11. [Flume]()
-12. [Kafka]()
-13. [Various scripts]()
+Apache HBase is an open source, non-relational, distributed database modeled after Google's BigTable and is written in Java. It is developed as part of Apache Software Foundation's Apache Hadoop project and runs on top of HDFS (Hadoop Distributed File System), providing BigTable-like capabilities for Hadoop. That is, it provides a fault-tolerant way of storing large quantities of sparse data (small amounts of information caught within a large collection of empty or unimportant data, such as finding the 50 largest items in a group of 2 billion records, or finding the non-zero items representing less than 0.1% of a huge collection).
 
+http://hbase.praveendeshmane.co.in/hbase/hbase-CRUD-operations.jsp
 
-Please see [CONTRIBUTING.md]() for information on how to contribute.
+https://www.tutorialspoint.com/hbase/hbase_shell.htm
 
-## License
-__Copyleft__, since this is an aggregation of ressources freely available on the internet / docs of each components.
+ 
+```bash
+su hbase
+/usr/bin/hbase shell
+ 
+# creating table
+create 'emp','personal data','professional data'
 
-## Other ressources & references
-- [teamclairvoyant - hadoop-smoke-tests](https://github.com/teamclairvoyant/hadoop-smoke-tests)
-- [godatadriven - hdp-smokey](https://github.com/godatadriven/hdp-smokey)
-- [zmousa - hadoop-smoke-test](https://github.com/zmousa/hadoop-smoke-test)
+# inserting data into table
+put 'emp','1','personal data:name','raju'
+put 'emp','1','personal data:city','hyderabad'
+put 'emp','1','professional data:designation','manager'
+put 'emp','1','professional data:salary','50000'
+put 'emp','1','personal data:name','raju'; put 'emp','1','personal data:city','hyderabad'; put 'emp','1','professional data:designation','manager'; put 'emp','1','professional data:salary','50000'
+
+# view or Scan
+scan 'emp'
+
+# Update
+put 'emp','1','personal data:city','Delhi'
+
+# Verify or Scan
+scan 'emp'
+
+# Retrieve
+get 'emp', '1'
+get 'emp', '1', {COLUMN=>'personal data:name'}
+
+# Delete
+delete 'emp', '1', 'personal data:city'
+deleteall 'emp','1'
+
+# View or Scan
+scan 'emp'
+
+# Count and Truncate
+count 'emp'
+truncate 'emp'
+scan 'emp'
+ 
+# Grant, revoke and list all permissions
+grant 'praveen', 'RWXCA'
+revoke 'praveen'
+user_permission 'emp'
+```bash
