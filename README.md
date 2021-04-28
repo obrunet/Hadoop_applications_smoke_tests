@@ -16,6 +16,7 @@ One might use these when setting up a new cluster or after a cluster upgrade to 
 
 
 ## Table of Contents
+00. [Zookeeper](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/00.Zookeeper/Zookeeper.md)
 01. [HDFS](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/01.HDFS/HDFS.md)
 02. [Hive](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/02.Hive/Hive.md)
 03. [Hbase](https://github.com/obrunet/Hadoop_applications_smoke_tests/tree/main/03.Hbase/Hbase.md)
